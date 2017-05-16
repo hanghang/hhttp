@@ -59,13 +59,11 @@ func (s *Session) Request(method string, urlStr string, body io.Reader) (resp *H
 }
 
 type HResponse struct {
-	HttpResp http.Response
+	http.Response
 }
 
-func (r *HResponse) Text() string {
-	resp := r.HttpResp
+func (resp *HResponse) Text() string {
 	defer resp.Body.Close()
-
 	var txt []byte
 	var err error
 	if resp.Header["Content-Encoding"] != nil && resp.Header["Content-Encoding"][0] == "gzip" {
@@ -83,5 +81,4 @@ func (r *HResponse) Text() string {
 	} else {
 		return ""
 	}
-
 }
