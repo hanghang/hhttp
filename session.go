@@ -54,15 +54,17 @@ func (s *Session) Request(method string, urlStr string, body io.Reader) (resp *H
 
 	req.Header = s.Header
 	res, err := client.Do(req)
-	wrapped := &HResponse{*res}
+	wrapped := &HResponse{*res, ""}
+	wrapped.Text = wrapped.text()
 	return wrapped, err
 }
 
 type HResponse struct {
 	http.Response
+	Text string
 }
 
-func (resp *HResponse) Text() string {
+func (resp *HResponse) text() string {
 	defer resp.Body.Close()
 	var txt []byte
 	var err error
