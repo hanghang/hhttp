@@ -65,7 +65,9 @@ type HResponse struct {
 }
 
 func (resp *HResponse) text() string {
-	defer resp.Body.Close()
+	if resp != nil {
+		defer resp.Body.Close()
+	}
 	var txt []byte
 	var err error
 	if resp.Header["Content-Encoding"] != nil && resp.Header["Content-Encoding"][0] == "gzip" {
